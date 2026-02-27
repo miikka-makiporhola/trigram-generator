@@ -1,13 +1,32 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { TrigramGenerator } from "./index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 describe("TrigramGenerator", () => {
+  let frankensteinText: string;
+  let prideAndPrejudiceText: string;
+  let kalevalaText: string;
+
+  beforeAll(async () => {
+    frankensteinText = await readFile(
+      path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_frankenstein.txt"),
+      "utf8",
+    );
+    prideAndPrejudiceText = await readFile(
+      path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_pride_and_prejudice.txt"),
+      "utf8",
+    );
+    kalevalaText = await readFile(
+      path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_kalevala.txt"),
+      "utf8",
+    );
+  });
+
   describe("when given small test input", () => {
     it("generates expected output", () => {
       const generator = new TrigramGenerator({ seed: 2 });
@@ -19,11 +38,7 @@ describe("TrigramGenerator", () => {
   });
 
   describe('when given "Frankenstein" text', () => {
-    it("generates expected output", async () => {
-      const frankensteinText = await readFile(
-        path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_frankenstein.txt"),
-        "utf8",
-      );
+    it("generates expected output", () => {
       const generator = new TrigramGenerator({ seed: 987 });
       generator.addSource(frankensteinText);
       generator.finalize();
@@ -35,11 +50,7 @@ describe("TrigramGenerator", () => {
   });
 
   describe('when given "Kalevala" text', () => {
-    it("generates expected output", async () => {
-      const kalevalaText = await readFile(
-        path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_kalevala.txt"),
-        "utf8",
-      );
+    it("generates expected output", () => {
       const generator = new TrigramGenerator({ seed: 212 });
       generator.addSource(kalevalaText);
       generator.finalize();
@@ -51,19 +62,7 @@ describe("TrigramGenerator", () => {
   });
 
   describe("when given multiple sources", () => {
-    it("generates expected output for small max token size", async () => {
-      const frankensteinText = await readFile(
-        path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_frankenstein.txt"),
-        "utf8",
-      );
-      const prideAndPrejudiceText = await readFile(
-        path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_pride_and_prejudice.txt"),
-        "utf8",
-      );
-      const kalevalaText = await readFile(
-        path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_kalevala.txt"),
-        "utf8",
-      );
+    it("generates expected output for small max token size", () => {
       const generator = new TrigramGenerator({ seed: 245 });
       generator.addSource(frankensteinText);
       generator.addSource(kalevalaText);
@@ -74,21 +73,10 @@ describe("TrigramGenerator", () => {
       );
     });
 
-    it("generates expected output for large max token size", async () => {
-      const frankensteinText = await readFile(
-        path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_frankenstein.txt"),
-        "utf8",
-      );
-      const prideAndPrejudiceText = await readFile(
-        path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_pride_and_prejudice.txt"),
-        "utf8",
-      );
-      const kalevalaText = await readFile(
-        path.join(__dirname, "..", "test", "fixtures", "project_gutenberg_kalevala.txt"),
-        "utf8",
-      );
+    it("generates expected output for large max token size", () => {
       const generator = new TrigramGenerator({ seed: 489 });
       generator.addSource(frankensteinText);
+      generator.addSource(prideAndPrejudiceText);
       generator.addSource(kalevalaText);
       generator.finalize();
       const result = generator.generate({ maxTokens: 5000 });
