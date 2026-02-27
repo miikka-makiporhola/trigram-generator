@@ -35,6 +35,32 @@ describe("TrigramGenerator", () => {
       const result = generator.generate({ maxTokens: 100 });
       expect(result).toStrictEqual("I may I wish I may I wish I might");
     });
+
+    it("exposes the completed transition list after adding sources", () => {
+      const generator = new TrigramGenerator();
+      generator.addSource("I wish I may I wish I might");
+
+      expect(generator.getTransitionList()).toStrictEqual([
+        { pair: ["I", "wish"], nextTokens: ["I", "I"] },
+        { pair: ["wish", "I"], nextTokens: ["may", "might"] },
+        { pair: ["I", "may"], nextTokens: ["I"] },
+        { pair: ["may", "I"], nextTokens: ["wish"] },
+      ]);
+    });
+
+    it("keeps the completed transition list available after finalization", () => {
+      const generator = new TrigramGenerator();
+      generator.addSource("I wish I may I wish I might");
+      generator.addSource("I wish I could");
+      generator.finalize();
+
+      expect(generator.getTransitionList()).toStrictEqual([
+        { pair: ["I", "wish"], nextTokens: ["I", "I", "I"] },
+        { pair: ["wish", "I"], nextTokens: ["may", "might", "could"] },
+        { pair: ["I", "may"], nextTokens: ["I"] },
+        { pair: ["may", "I"], nextTokens: ["wish"] },
+      ]);
+    });
   });
 
   describe('when given "Frankenstein" text', () => {

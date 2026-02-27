@@ -6,6 +6,11 @@ export interface TrigramGeneratorOptions {
   seed?: number;
 }
 
+export interface TrigramTransitionListEntry {
+  pair: readonly [string, string];
+  nextTokens: readonly string[];
+}
+
 const TRIGRAM_SIZE = 3;
 const PAIR_KEY_DELIMITER = "|";
 
@@ -175,6 +180,28 @@ export class TrigramGenerator {
 
   private isPunctuationToken(token: string): boolean {
     return /^[^\s\p{L}\p{N}]+$/u.test(token);
+  }
+
+  public getTransitionList(): TrigramTransitionListEntry[] {
+    const entries: TrigramTransitionListEntry[] = [];
+
+    for (const key of this.pairOrder) {
+      const transitions = this.isFinalized
+        ? this.finalizedTransitions?.get(key)
+        : this.transitionLists.get(key);
+
+      if (transitions === undefined || transitions.length === 0) {
+        continue;
+      }
+
+      const [firstId, secondId] = this.unpackTokenIdPairKey(key);
+      const pair: [string, string] = [this.idToToken[firstId], this.idToToken[secondId]];
+      const nextTokens = Array.from(transitions, (transitionTokenId) => this.idToToken[transitionTokenId]);
+
+      entries.push({ pair, nextTokens });
+    }
+
+    return entries;
   }
 
   public generate({ maxTokens }: TrigramGenerationOptions): string {
