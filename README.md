@@ -124,6 +124,7 @@ npm run build
 This repository includes a static demo app in `site/` that lets you:
 
 - Paste one or more source texts
+- Add built-in example sources with one click
 - Set an optional numeric seed
 - Generate output with configurable max token count
 

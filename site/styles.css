@@ -43,12 +43,14 @@ label {
 
 textarea,
 input,
+select,
 button {
   font: inherit;
 }
 
 textarea,
-input {
+input,
+select {
   width: 100%;
   padding: 0.6rem;
   border: 1px solid var(--line);
@@ -63,6 +65,13 @@ textarea {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.8rem;
+}
+
+.example-controls {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+  align-items: center;
 }
 
 .buttons {
@@ -103,6 +112,10 @@ button {
 
 @media (max-width: 600px) {
   .controls {
+    grid-template-columns: 1fr;
+  }
+
+  .example-controls {
     grid-template-columns: 1fr;
   }
 }

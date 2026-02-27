@@ -10,6 +10,13 @@
     <main>
       <h1>Trigram Generator Playground</h1>
       <p>Paste one source, click <code>Add source</code>, then repeat.</p>
+      <p>Or pick a built-in example source and add it directly.</p>
+
+      <label for="exampleSource">Example sources</label>
+      <div class="example-controls">
+        <select id="exampleSource" aria-label="Example sources"></select>
+        <button id="addExample" type="button">Add example</button>
+      </div>
 
       <label for="sources">Sources</label>
       <textarea id="sources" placeholder="Paste one source text here"></textarea>
