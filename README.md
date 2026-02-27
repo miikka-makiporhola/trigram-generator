@@ -27,6 +27,8 @@ const generator = new TrigramGenerator({ seed: 357 });
 generator.addSource("I wish I may I wish I might.");
 generator.addSource("I may follow where the trigram leads.");
 
+const transitions = generator.getTransitionList();
+
 generator.finalize();
 
 const text = generator.generate({ maxTokens: 30 });
@@ -54,6 +56,16 @@ Notes:
 - Can be called multiple times before `finalize()`.
 - Throws if called after `finalize()`.
 - Inputs with fewer than 3 tokens are ignored.
+
+### `getTransitionList(): Array<{ pair: [string, string]; nextTokens: string[] }>`
+
+Returns the current trigram transition list as token strings.
+
+Notes:
+
+- Includes transitions from all added sources in insertion order.
+- Keeps duplicate next tokens to preserve transition frequency.
+- Can be called before or after `finalize()`.
 
 ### `finalize(): void`
 
