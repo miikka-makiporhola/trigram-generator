@@ -1,6 +1,6 @@
 {
   "name": "@miikka_makiporhola/trigram-generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Build a trigram language model from text and generate deterministic or random output.",
   "keywords": [
     "trigram",

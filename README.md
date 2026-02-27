@@ -142,17 +142,6 @@ python3 -m http.server --directory public 4173
 
 Then open `http://localhost:4173`.
 
-### Deploy to GitHub Pages
-
-1. Push this repository to GitHub.
-2. In GitHub, open repository settings -> Pages.
-3. Set Source to `GitHub Actions`.
-4. Push to the `main` branch (or run the "Deploy Demo (GitHub Pages)" workflow manually).
-
-After deployment, the demo is available at:
-
-`https://miikka-makiporhola.github.io/trigram-generator/`
-
 ## Test Fixtures
 
 Large book fixtures used by tests are documented in:
