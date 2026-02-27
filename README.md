@@ -14,13 +14,13 @@ A small TypeScript library for building a trigram language model from input text
 ## Installation
 
 ```bash
-npm install trigram-generator
+npm install @miikka/trigram-generator
 ```
 
 ## Usage
 
 ```ts
-import { TrigramGenerator } from "trigram-generator";
+import { TrigramGenerator } from "@miikka/trigram-generator";
 
 const generator = new TrigramGenerator({ seed: 357 });
 
@@ -127,6 +127,8 @@ This repository includes a static demo app in `site/` that lets you:
 - Set an optional numeric seed
 - Generate output with configurable max token count
 
+Live demo: [https://miikka-makiporhola.github.io/trigram-generator/](https://miikka-makiporhola.github.io/trigram-generator/)
+
 ### Run locally
 
 ```bash
@@ -149,7 +151,7 @@ Then open `http://localhost:4173`.
 
 After deployment, the demo is available at:
 
-`https://<your-username>.github.io/<your-repository-name>/`
+`https://miikka-makiporhola.github.io/trigram-generator/`
 
 ## Test Fixtures
 

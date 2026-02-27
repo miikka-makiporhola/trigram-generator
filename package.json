@@ -1,12 +1,31 @@
 {
-  "name": "trigram-generator",
-  "license": "MIT",
+  "name": "@miikka_makiporhola/trigram-generator",
   "version": "0.1.0",
+  "description": "Build a trigram language model from text and generate deterministic or random output.",
+  "keywords": [
+    "trigram",
+    "markov-chain",
+    "language-model",
+    "text-generation",
+    "typescript"
+  ],
+  "homepage": "https://github.com/miikka-makiporhola/trigram-generator#readme",
+  "bugs": {
+    "url": "https://github.com/miikka-makiporhola/trigram-generator/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miikka-makiporhola/trigram-generator.git"
+  },
+  "license": "MIT",
   "type": "module",
   "sideEffects": false,
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -33,7 +52,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "prepublishOnly": "npm run lint && npm run test && npm run build && npm run typecheck"
+    "prepublishOnly": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "release": "npm run prepublishOnly && npm publish --ignore-scripts"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
