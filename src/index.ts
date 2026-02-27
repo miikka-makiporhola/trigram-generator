@@ -31,7 +31,7 @@ export class TrigramGenerator {
   }
 
   private getTokenIdPairKey(first: number, second: number): string {
-    return `${first}${PAIR_KEY_DELIMITER}${second}`;
+    return `${first.toString()}${PAIR_KEY_DELIMITER}${second.toString()}`;
   }
 
   private unpackTokenIdPairKey(key: string): [number, number] {
