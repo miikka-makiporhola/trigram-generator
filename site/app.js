@@ -1,5 +1,7 @@
 import { TrigramGenerator } from "./dist/index.js";
 
+const MAX_TRANSITION_PAIRS_DISPLAY = 200;
+
 const EXAMPLE_SOURCES = [
   {
     label: "Wish rhyme (long)",
@@ -74,6 +76,9 @@ const seedEl = document.querySelector("#seed");
 const maxTokensEl = document.querySelector("#maxTokens");
 const statusEl = document.querySelector("#status");
 const outputEl = document.querySelector("#output");
+const transitionsPanelEl = document.querySelector("#transitionsPanel");
+const transitionSummaryEl = document.querySelector("#transitionSummary");
+const transitionPairsEl = document.querySelector("#transitionPairs");
 const sources = [];
 
 function setStatus(text) {
@@ -87,6 +92,7 @@ function updateSourceCount() {
 function addResolvedSource(text) {
   sources.push(text);
   updateSourceCount();
+  refreshTransitionPairs();
   setStatus(`Added source ${sources.length}.`);
 }
 
@@ -135,6 +141,70 @@ function parseMaxTokens() {
   return value;
 }
 
+function formatToken(token) {
+  return JSON.stringify(token);
+}
+
+function formatNextTokenCounts(nextTokens) {
+  const counts = new Map();
+
+  for (const token of nextTokens) {
+    counts.set(token, (counts.get(token) ?? 0) + 1);
+  }
+
+  return Array.from(counts.entries())
+    .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
+    .map(([token, count]) => `${formatToken(token)} (${count})`)
+    .join(", ");
+}
+
+function clearTransitionPairs() {
+  transitionSummaryEl.textContent = "";
+  transitionPairsEl.textContent = "";
+  transitionsPanelEl.open = false;
+}
+
+function renderTransitionPairs(transitions) {
+  if (transitions.length === 0) {
+    transitionSummaryEl.textContent = "No transition pairs available.";
+    transitionPairsEl.textContent = "";
+    transitionsPanelEl.open = true;
+    return;
+  }
+
+  const displayTransitions = transitions.slice(0, MAX_TRANSITION_PAIRS_DISPLAY);
+  transitionPairsEl.textContent = displayTransitions
+    .map(({ pair, nextTokens }, index) => {
+      const pairLabel = `[${formatToken(pair[0])}, ${formatToken(pair[1])}]`;
+      const nextTokenCounts = formatNextTokenCounts(nextTokens);
+      return `${index + 1}. ${pairLabel} -> ${nextTokenCounts}`;
+    })
+    .join("\n");
+
+  if (displayTransitions.length < transitions.length) {
+    transitionSummaryEl.textContent =
+      `Showing ${displayTransitions.length} of ${transitions.length} transition pairs.`;
+  } else {
+    transitionSummaryEl.textContent = `Showing all ${transitions.length} transition pairs.`;
+  }
+
+  transitionsPanelEl.open = true;
+}
+
+function refreshTransitionPairs() {
+  if (sources.length === 0) {
+    clearTransitionPairs();
+    return;
+  }
+
+  const generator = new TrigramGenerator();
+  for (const source of sources) {
+    generator.addSource(source);
+  }
+
+  renderTransitionPairs(generator.getTransitionList());
+}
+
 function generate() {
   outputEl.textContent = "";
 
@@ -151,7 +221,9 @@ function generate() {
       generator.addSource(source);
     }
 
-    const pairCount = generator.getTransitionList().length;
+    const transitions = generator.getTransitionList();
+    const pairCount = transitions.length;
+    renderTransitionPairs(transitions);
     generator.finalize();
 
     const text = generator.generate({ maxTokens });
@@ -167,6 +239,15 @@ function clearOutput() {
   setStatus("");
 }
 
+function clearSources() {
+  sources.length = 0;
+  sourcesEl.value = "";
+  outputEl.textContent = "";
+  updateSourceCount();
+  clearTransitionPairs();
+  setStatus("Cleared all sources and reset model.");
+}
+
 function initExampleSourceOptions() {
   for (const [index, example] of EXAMPLE_SOURCES.entries()) {
     const option = document.createElement("option");
@@ -177,7 +258,9 @@ function initExampleSourceOptions() {
 }
 
 initExampleSourceOptions();
+clearTransitionPairs();
 document.querySelector("#addSource")?.addEventListener("click", addSource);
 document.querySelector("#addExample")?.addEventListener("click", addExampleSource);
+document.querySelector("#clearSources")?.addEventListener("click", clearSources);
 document.querySelector("#generate")?.addEventListener("click", generate);
 document.querySelector("#clear")?.addEventListener("click", clearOutput);

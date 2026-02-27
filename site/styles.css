@@ -110,6 +110,35 @@ button {
   white-space: pre-wrap;
 }
 
+#transitionsPanel {
+  margin-top: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fcfcfd;
+}
+
+#transitionsPanel > summary {
+  padding: 0.7rem 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#transitionSummary {
+  margin: 0;
+  padding: 0 0.8rem 0.55rem;
+  color: #475467;
+}
+
+#transitionPairs {
+  margin: 0;
+  padding: 0.8rem;
+  border-top: 1px solid var(--line);
+  max-height: 320px;
+  overflow: auto;
+  white-space: pre-wrap;
+  background: #f8fafc;
+}
+
 @media (max-width: 600px) {
   .controls {
     grid-template-columns: 1fr;

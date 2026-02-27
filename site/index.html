@@ -32,12 +32,19 @@
 
       <div class="buttons">
         <button id="addSource" type="button">Add source</button>
+        <button id="clearSources" type="button">Clear sources</button>
         <button id="generate" type="button">Generate</button>
         <button id="clear" type="button">Clear output</button>
       </div>
 
       <p id="status" aria-live="polite"></p>
       <pre id="output" aria-live="polite"></pre>
+
+      <details id="transitionsPanel">
+        <summary>Transition pairs</summary>
+        <p id="transitionSummary" aria-live="polite"></p>
+        <pre id="transitionPairs" aria-live="polite"></pre>
+      </details>
     </main>
 
     <script type="module" src="./app.js"></script>
