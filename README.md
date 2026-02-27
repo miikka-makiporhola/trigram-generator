@@ -119,6 +119,38 @@ npm run lint
 npm run build
 ```
 
+## Browser Playground (GitHub Pages)
+
+This repository includes a static demo app in `site/` that lets you:
+
+- Paste one or more source texts
+- Set an optional numeric seed
+- Generate output with configurable max token count
+
+### Run locally
+
+```bash
+npm run build
+rm -rf public
+mkdir -p public/dist
+cp -R site/. public/
+cp -R dist/. public/dist/
+python3 -m http.server --directory public 4173
+```
+
+Then open `http://localhost:4173`.
+
+### Deploy to GitHub Pages
+
+1. Push this repository to GitHub.
+2. In GitHub, open repository settings -> Pages.
+3. Set Source to `GitHub Actions`.
+4. Push to the `main` branch (or run the "Deploy Demo (GitHub Pages)" workflow manually).
+
+After deployment, the demo is available at:
+
+`https://<your-username>.github.io/<your-repository-name>/`
+
 ## Test Fixtures
 
 Large book fixtures used by tests are documented in:
