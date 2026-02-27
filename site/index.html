@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trigram Generator Playground</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Trigram Generator Playground</h1>
+      <p>Paste one source, click <code>Add source</code>, then repeat.</p>
+
+      <label for="sources">Sources</label>
+      <textarea id="sources" placeholder="Paste one source text here"></textarea>
+      <p id="sourceCount" aria-live="polite">Sources added: 0</p>
+
+      <div class="controls">
+        <label for="seed">Seed (optional)</label>
+        <input id="seed" type="number" placeholder="random" />
+
+        <label for="maxTokens">Max tokens</label>
+        <input id="maxTokens" type="number" min="1" value="80" />
+      </div>
+
+      <div class="buttons">
+        <button id="addSource" type="button">Add source</button>
+        <button id="generate" type="button">Generate</button>
+        <button id="clear" type="button">Clear output</button>
+      </div>
+
+      <p id="status" aria-live="polite"></p>
+      <pre id="output" aria-live="polite"></pre>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
