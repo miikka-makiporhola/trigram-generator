@@ -124,23 +124,26 @@ npm run build
 This repository includes a static demo app in `site/` that lets you:
 
 - Paste one or more source texts
+- Add built-in example sources with one click
 - Set an optional numeric seed
 - Generate output with configurable max token count
+- Inspect transition pairs and next-token frequencies used by generation
 
 Live demo: [https://miikka-makiporhola.github.io/trigram-generator/](https://miikka-makiporhola.github.io/trigram-generator/)
 
 ### Run locally
 
 ```bash
-npm run build
-rm -rf public
-mkdir -p public/dist
-cp -R site/. public/
-cp -R dist/. public/dist/
-python3 -m http.server --directory public 4173
+./scripts/run-pages-local.sh
 ```
 
 Then open `http://localhost:4173`.
+
+Optional custom port:
+
+```bash
+./scripts/run-pages-local.sh 8080
+```
 
 ## Test Fixtures
 
